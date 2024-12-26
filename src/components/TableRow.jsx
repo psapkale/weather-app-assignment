@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-const TableRow = ({ city }) => {
-   const [description, setDescription] = useState("");
-   console.log(description, city.description);
-
-   useEffect(() => {
-      console.log(description);
-      setDescription(city.description);
-   }, []);
+const TableRow = ({ city, handleDelete }) => {
+   const [description, setDescription] = useState(city.description);
+   const timeDifference =
+      new Date() -
+      +city?.date_and_time.split(":")[0].split("").slice(-2).join("");
+   const daysInHours = (timeDifference / (1000 * 60 * 60))
+      .toString()
+      .split("")
+      .slice(0, 2)
+      .join("");
 
    return (
-      <tr className="w-full">
+      <tr className={`w-full ${city.isHighlighted ? "bg-orange-400" : ""}`}>
          <td className="border border-black w-[calc(100%/6)] text-start py-2 px-4">
             {city.name}
          </td>
@@ -29,11 +31,11 @@ const TableRow = ({ city }) => {
             {city.pressure_in_hPa}
          </td>
          <td className="border border-black w-[calc(100%/6)] text-start py-2 px-4">
-            {city.date_and_time}
+            {daysInHours}
          </td>
          <td
             className="text-[#4472C4] underline border border-black w-[calc(100%/6)] text-start py-2 px-4 cursor-pointer"
-            onClick={handleDelete}
+            onClick={() => handleDelete(city.id)}
          >
             Delete
          </td>

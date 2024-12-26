@@ -19,17 +19,25 @@ const Sidebar = () => {
       const updatedCity = {
          ...city,
          ...res.data,
+         isHighlighted: false,
       };
-      setCitiesData([
-         updatedCity,
-         ...citiesData.filter((x) => x.name !== city.name),
-      ]);
+      setCitiesData(
+         [updatedCity, ...citiesData.filter((x) => x.name !== city.name)].sort(
+            (a, b) => a.id - b.id
+         )
+      );
 
       const c = cities.find((x) => x.name === city.name);
       c.isFetched = true;
-      setCities([c, ...cities.filter((x) => x.name !== city.name)]);
+      setCities(
+         [c, ...cities.filter((x) => x.name !== city.name)].sort(
+            (a, b) => a.id - b.id
+         )
+      );
 
-      index < cities.length && setIndex((prev) => prev + 1);
+      // additional delay of 200ms
+      index < cities.length &&
+         setTimeout(() => setIndex((prev) => prev + 1), 200);
    }
 
    useEffect(() => {
@@ -37,11 +45,13 @@ const Sidebar = () => {
       getWeatherData();
    }, [index]);
 
-   console.log(index, citiesData);
-
    return (
       <div className="flex-[0.2] border-r-8 border-black h-full flex items-center justify-center flex-col">
-         <button className="button" onClick={getWeatherData}>
+         <button
+            className="button"
+            disabled={index === cities.length}
+            onClick={getWeatherData}
+         >
             Get Weather
          </button>
          <ul className="w-[70%]">
