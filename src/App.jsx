@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import WeatherContainer from "./components/WeatherContainer";
-import { CitiesContext } from "./context/citiesContext";
+import { CitiesContext } from "./context/CitiesContext";
 
 function App() {
    const [citiesData, setCitiesData] = useState([]);
